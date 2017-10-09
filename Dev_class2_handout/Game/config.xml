@@ -1,0 +1,27 @@
+<config>
+	<window>
+		<title wtitle="Ridash" />
+		<company wcompany="CITM" />
+		<year wyear="2017" />
+		<dimensions width="1024" height="768" scale="1" />
+		<options fullscreen="false" borderless="false" resizable="true" fullscreenwindow="false" />
+	</window>
+	
+	<input>
+		<direction w="up" a="left" s="down" d="right" />
+	</input>
+	
+	<renderer>
+		<background r="0" g="0" b="0" a="0" />
+	</renderer>
+	
+	<textures>
+		<defaultsize width="0" height="0" />
+	</textures>
+	
+	<audio>
+		<song default="piano" />
+		<volume vol="100" />
+		<mute muted="false" />
+	</audio>
+</config>
