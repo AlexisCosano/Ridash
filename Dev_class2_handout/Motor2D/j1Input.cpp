@@ -16,13 +16,13 @@ j1Input::j1Input() : j1Module()
 	memset(mouse_buttons, KEY_IDLE, sizeof(j1KeyState) * NUM_MOUSE_BUTTONS);
 }
 
-// Destructor
+// Destructor -------------------------------------
 j1Input::~j1Input()
 {
 	delete[] keyboard;
 }
 
-// Called before render is available
+// Called before render is available --------------
 bool j1Input::Awake(pugi::xml_node&)
 {
 	LOG("Init SDL input event system");
@@ -38,14 +38,14 @@ bool j1Input::Awake(pugi::xml_node&)
 	return ret;
 }
 
-// Called before the first frame
+// Called before the first frame -----------------
 bool j1Input::Start()
 {
 	SDL_StopTextInput();
 	return true;
 }
 
-// Called each loop iteration
+// Called each loop iteration --------------------
 bool j1Input::PreUpdate()
 {
 	static SDL_Event event;
@@ -131,7 +131,7 @@ bool j1Input::PreUpdate()
 	return true;
 }
 
-// Called before quitting
+// Called before quitting --------------------
 bool j1Input::CleanUp()
 {
 	LOG("Quitting SDL event subsystem");
@@ -139,20 +139,36 @@ bool j1Input::CleanUp()
 	return true;
 }
 
-// ---------
+// --------------------------------------------
 bool j1Input::GetWindowEvent(j1EventWindow ev)
 {
 	return windowEvents[ev];
 }
-
+ // -------------------------------------------
 void j1Input::GetMousePosition(int& x, int& y)
 {
 	x = mouse_x;
 	y = mouse_y;
 }
 
+// -------------------------------------------
 void j1Input::GetMouseMotion(int& x, int& y)
 {
 	x = mouse_motion_x;
 	y = mouse_motion_y;
+}
+
+// Save & Load ------------------------------
+bool j1Input::Save(pugi::xml_node&)
+{
+	bool ret = true;
+
+	return true;
+}
+
+bool j1Input::Load(pugi::xml_node&)
+{
+	bool ret = true;
+
+	return true;
 }

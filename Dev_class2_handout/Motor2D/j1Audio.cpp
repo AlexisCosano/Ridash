@@ -15,21 +15,21 @@ j1Audio::j1Audio() : j1Module()
 	name.create("audio");
 }
 
-// Destructor
+// Destructor -----------------------------------
 j1Audio::~j1Audio()
 {}
 
-// Called before render is available
+// Called before render is available ------------
 bool j1Audio::Awake(pugi::xml_node&)
 {
 	LOG("Loading Audio Mixer");
 	bool ret = true;
 	SDL_Init(0);
 
-	volume = App->node.child("audio").child("volume").attribute("vol").as_int();
-	max_volume = App->node.child("audio").child("volume").attribute("vol").as_int();
+	volume = App->config_node.child("audio").child("volume").attribute("vol").as_int();
+	max_volume = App->config_node.child("audio").child("volume").attribute("vol").as_int();
 	min_volume = 0;
-	muted = App->node.child("audio").child("mute").attribute("muted").as_bool();
+	muted = App->config_node.child("audio").child("mute").attribute("muted").as_bool();
 	
 	if(SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
 	{
@@ -60,7 +60,7 @@ bool j1Audio::Awake(pugi::xml_node&)
 	return ret;
 }
 
-// Called before quitting
+// Called before quitting -------------------
 bool j1Audio::CleanUp()
 {
 	if(!active)
@@ -86,7 +86,7 @@ bool j1Audio::CleanUp()
 	return true;
 }
 
-// Play a music file
+// Play a music file -----------------------
 bool j1Audio::PlayMusic(const char* path, float fade_time)
 {
 	bool ret = true;
@@ -140,7 +140,7 @@ bool j1Audio::PlayMusic(const char* path, float fade_time)
 	return ret;
 }
 
-// Load WAV
+// Load WAV ----------------------------------
 unsigned int j1Audio::LoadFx(const char* path)
 {
 	unsigned int ret = 0;
@@ -163,7 +163,7 @@ unsigned int j1Audio::LoadFx(const char* path)
 	return ret;
 }
 
-// Play WAV
+// Play WAV -------------------------------------
 bool j1Audio::PlayFx(unsigned int id, int repeat)
 {
 	bool ret = false;
@@ -177,4 +177,19 @@ bool j1Audio::PlayFx(unsigned int id, int repeat)
 	}
 
 	return ret;
+}
+
+// Save & Load ---------------------------------
+bool j1Audio::Save(pugi::xml_node&)
+{
+	bool ret = true;
+
+	return true;
+}
+
+bool j1Audio::Load(pugi::xml_node&)
+{
+	bool ret = true;
+
+	return true;
 }

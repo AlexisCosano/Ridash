@@ -57,37 +57,15 @@ void j1App::AddModule(j1Module* module)
 // Called before render is available
 bool j1App::Awake()
 {
-	pugi::xml_parse_result document_result = main_document.load_file("config.xml");
-
-	if (document_result)
-	{
-		LOG("LOADING XML FILE ====================");
-		LOG("The document config.xml has been loaded without any problem.");
-		LOG("=====================================");
-		node = main_document.child("config");
-		//LOG("The first node is: %s", main_document.child("config").name());
-		//LOG("The second node is: %s", node.child("window").name());
-		//LOG("The first attribute from the second node is: %s", node.child("window").child("title").attribute("wtitle").value());
-		//LOG("Testing: %s", node.child_value("window"));
-	}
-	else
-	{
-		LOG("ERROR LOADING XML FILE ====================");
-		LOG("Error description: %s", document_result.description());
-		LOG("Error offset: %s", document_result.offset);
-		LOG("===========================================");
-	}
-
 	bool ret = true;
 
-	p2List_item<j1Module*>* item;
-	item = modules.start;
+	bool ret2 = LoadConfigFile();
+	if (ret2 == false)
+		ret = false;
 
-	while (item != NULL && ret == true)
-	{
-		ret = item->data->Awake(node.child(item->data->name.GetString()));
-		item = item->next;
-	}
+	bool ret3 = LoadSaveFile();
+	if (ret3 == false)
+		ret = false;
 
 	return ret;
 }
@@ -234,4 +212,108 @@ const char* j1App::GetArgv(int index) const
 		return args[index];
 	else
 		return NULL;
+}
+
+// ---------------------------------------
+bool j1App::SaveFile()
+{
+	bool ret = true;
+
+	return ret;
+}
+
+// ---------------------------------------
+bool j1App::LoadFile()
+{
+	bool ret = true;
+
+	return ret;
+}
+
+// ---------------------------------------
+bool j1App::WantToSave(pugi::xml_node&)
+{
+	bool ret = true;
+
+	SaveFile();
+
+	return ret;
+}
+
+// ---------------------------------------
+bool j1App::WantToLoad(pugi::xml_node&)
+{
+	bool ret = true;
+
+	LoadFile();
+
+	return ret;
+}
+
+// Load Config file ---------------------
+bool j1App::LoadConfigFile()
+{
+	bool ret = true;
+	pugi::xml_parse_result document_result = config.load_file("config.xml");
+
+	if (document_result)
+	{
+		LOG("LOADING XML FILE ====================");
+		LOG("The document config.xml has been loaded without any problem.");
+		LOG("=====================================");
+		config_node = config.child("config");
+	}
+	else
+	{
+		LOG("ERROR LOADING XML FILE ====================");
+		LOG("Error description: %s", document_result.description());
+		LOG("Error offset: %s", document_result.offset);
+		LOG("===========================================");
+		ret = false;
+	}
+	
+	p2List_item<j1Module*>* item;
+	item = modules.start;
+
+	while (item != NULL && ret == true)
+	{
+		ret = item->data->Awake(config_node.child(item->data->name.GetString()));
+		item = item->next;
+	}
+
+	return ret;
+}
+
+// Load Save File
+bool j1App::LoadSaveFile()
+{
+	bool ret = true;
+	pugi::xml_parse_result document_result = save_file.load_file("savefile.xml");
+
+	if (document_result)
+	{
+		LOG("LOADING XML FILE ====================");
+		LOG("The document savefile.xml has been loaded without any problem.");
+		LOG("=====================================");
+		save_node = save_file.child("savefile");
+	}
+	else
+	{
+		LOG("ERROR LOADING XML FILE ====================");
+		LOG("Error description: %s", document_result.description());
+		LOG("Error offset: %s", document_result.offset);
+		LOG("===========================================");
+		ret = false;
+	}
+
+	p2List_item<j1Module*>* item;
+	item = modules.start;
+
+	while (item != NULL && ret == true)
+	{
+		ret = item->data->Load(save_node.child(item->data->name.GetString()));
+		item = item->next;
+	}
+
+	return ret;
 }

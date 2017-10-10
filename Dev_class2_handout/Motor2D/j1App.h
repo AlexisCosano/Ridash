@@ -42,6 +42,17 @@ public:
 	int GetArgc() const;
 	const char* GetArgv(int index) const;
 
+	// Save & Load
+	bool SaveFile();
+	bool LoadFile();
+
+	bool WantToSave(pugi::xml_node&);
+	bool WantToLoad(pugi::xml_node&);
+
+	// Load an XML file
+	bool LoadConfigFile();
+	bool LoadSaveFile();
+
 private:
 
 	// Call modules before each loop iteration
@@ -76,8 +87,10 @@ private:
 	float				dt;
 
 public:
-	pugi::xml_document  main_document;
-	pugi::xml_node      node;
+	pugi::xml_document  config;
+	pugi::xml_document  save_file;
+	pugi::xml_node      config_node;
+	pugi::xml_node      save_node;
 
 private:
 	int					argc;

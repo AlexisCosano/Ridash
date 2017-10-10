@@ -15,11 +15,11 @@ j1Render::j1Render() : j1Module()
 	background.a = 0;
 }
 
-// Destructor
+// Destructor -------------------------------
 j1Render::~j1Render()
 {}
 
-// Called before render is available
+// Called before render is available --------
 bool j1Render::Awake(pugi::xml_node&)
 {
 	LOG("Create SDL rendering context");
@@ -47,7 +47,7 @@ bool j1Render::Awake(pugi::xml_node&)
 	return ret;
 }
 
-// Called before the first frame
+// Called before the first frame -----------
 bool j1Render::Start()
 {
 	LOG("render start");
@@ -56,7 +56,7 @@ bool j1Render::Start()
 	return true;
 }
 
-// Called each loop iteration
+// Called each loop iteration --------------
 bool j1Render::PreUpdate()
 {
 	SDL_RenderClear(renderer);
@@ -68,6 +68,7 @@ bool j1Render::Update(float dt)
 	return true;
 }
 
+// -----------------------------------------
 bool j1Render::PostUpdate()
 {
 	SDL_SetRenderDrawColor(renderer, background.r, background.g, background.g, background.a);
@@ -75,7 +76,7 @@ bool j1Render::PostUpdate()
 	return true;
 }
 
-// Called before quitting
+// Called before quitting ------------------
 bool j1Render::CleanUp()
 {
 	LOG("Destroying SDL render");
@@ -98,7 +99,7 @@ void j1Render::ResetViewPort()
 	SDL_RenderSetViewport(renderer, &viewport);
 }
 
-// Blit to screen
+// Blit to screen -------------------------
 bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed, double angle, int pivot_x, int pivot_y) const
 {
 	bool ret = true;
@@ -140,6 +141,7 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 	return ret;
 }
 
+// -----------------------------------------
 bool j1Render::DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool filled, bool use_camera) const
 {
 	bool ret = true;
@@ -168,6 +170,7 @@ bool j1Render::DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a
 	return ret;
 }
 
+// -----------------------------------------
 bool j1Render::DrawLine(int x1, int y1, int x2, int y2, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool use_camera) const
 {
 	bool ret = true;
@@ -192,6 +195,7 @@ bool j1Render::DrawLine(int x1, int y1, int x2, int y2, Uint8 r, Uint8 g, Uint8 
 	return ret;
 }
 
+// -----------------------------------------
 bool j1Render::DrawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool use_camera) const
 {
 	bool ret = true;
@@ -220,4 +224,19 @@ bool j1Render::DrawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, U
 	}
 
 	return ret;
+}
+
+// Save & Load ------------------------------
+bool j1Render::Save(pugi::xml_node&)
+{
+	bool ret = true;
+
+	return true;
+}
+
+bool j1Render::Load(pugi::xml_node&)
+{
+	bool ret = true;
+
+	return true;
 }

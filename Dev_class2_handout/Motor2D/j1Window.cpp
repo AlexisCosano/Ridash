@@ -13,12 +13,12 @@ j1Window::j1Window() : j1Module()
 	name.create("window");
 }
 
-// Destructor
+// Destructor ---------------------------------
 j1Window::~j1Window()
 {
 }
 
-// Called before render is available
+// Called before render is available ----------
 bool j1Window::Awake(pugi::xml_node&)
 {
 	LOG("Init SDL window & surface");
@@ -33,16 +33,16 @@ bool j1Window::Awake(pugi::xml_node&)
 	{
 		//Create window
 		Uint32 flags = SDL_WINDOW_SHOWN;
-		width = App->node.child("window").child("dimensions").attribute("width").as_int();
-		height = App->node.child("window").child("dimensions").attribute("height").as_int();
-		scale = App->node.child("window").child("dimensions").attribute("scale").as_int();
+		width = App->config_node.child("window").child("dimensions").attribute("width").as_int();
+		height = App->config_node.child("window").child("dimensions").attribute("height").as_int();
+		scale = App->config_node.child("window").child("dimensions").attribute("scale").as_int();
 
-		fullscreen = App->node.child("window").child("options").attribute("fullscreen").as_bool();
-		borderless = App->node.child("window").child("options").attribute("borderless").as_bool();
-		resizable = App->node.child("window").child("options").attribute("resizable").as_bool();
-		fullscreen_window = App->node.child("window").child("options").attribute("fullscreen_window").as_bool();
+		fullscreen = App->config_node.child("window").child("options").attribute("fullscreen").as_bool();
+		borderless = App->config_node.child("window").child("options").attribute("borderless").as_bool();
+		resizable = App->config_node.child("window").child("options").attribute("resizable").as_bool();
+		fullscreen_window = App->config_node.child("window").child("options").attribute("fullscreen_window").as_bool();
 
-		title = App->node.child("window").child("title").attribute("wtitle").as_string();
+		title = App->config_node.child("window").child("title").attribute("wtitle").as_string();
 
 		if(fullscreen)
 		{
@@ -81,7 +81,7 @@ bool j1Window::Awake(pugi::xml_node&)
 	return ret;
 }
 
-// Called before quitting
+// Called before quitting --------------------
 bool j1Window::CleanUp()
 {
 	LOG("Destroying SDL window and quitting all SDL systems");
@@ -97,20 +97,37 @@ bool j1Window::CleanUp()
 	return true;
 }
 
-// Set new window title
+// Set new window title ----------------------
 void j1Window::SetTitle(const char* new_title)
 {
 	//title.create(new_title);
 	SDL_SetWindowTitle(window, new_title);
 }
 
+// -------------------------------------------
 void j1Window::GetWindowSize(uint& width, uint& height) const
 {
 	width = this->width;
 	height = this->height;
 }
 
+ // -----------------------------------------
 uint j1Window::GetScale() const
 {
 	return scale;
+}
+
+// Save & Load ------------------------------
+bool j1Window::Save(pugi::xml_node&)
+{
+	bool ret = true;
+
+	return true;
+}
+
+bool j1Window::Load(pugi::xml_node&)
+{
+	bool ret = true;
+
+	return true;
 }

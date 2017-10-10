@@ -1,0 +1,7 @@
+<savefile>
+	<renderer>
+		<background r="0" g="0" b="0" a="0" />
+		<camera camerax="0" cameray="0" />
+		<speed cameraspeed="100" />
+	</renderer>
+</savefile>
