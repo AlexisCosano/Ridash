@@ -40,11 +40,11 @@ public:
 	void SetBackgroundColor(SDL_Color color);
 
 	// Save & Load
-	bool Save(pugi::xml_node&);
-	bool Load(pugi::xml_node&);
+	bool Save(pugi::xml_node& node);
+	bool Load(pugi::xml_node& node);
 
-	bool SaveRendererState();
-	bool LoadState(pugi::xml_node&);
+	bool SaveRendererState(pugi::xml_node& node);
+	bool LoadState(pugi::xml_node& node);
 
 public:
 	

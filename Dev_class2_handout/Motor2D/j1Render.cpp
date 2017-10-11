@@ -29,8 +29,6 @@ bool j1Render::Awake(pugi::xml_node&)
 	flags |= SDL_RENDERER_PRESENTVSYNC;
 	renderer = SDL_CreateRenderer(App->win->window, -1, flags);
 
-	cam = App->save_node.child("renderer");
-
 	if(renderer == NULL)
 	{
 		LOG("Could not create the renderer! SDL_Error: %s\n", SDL_GetError());
@@ -230,45 +228,42 @@ bool j1Render::DrawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, U
 }
 
 // Save & Load ------------------------------
-bool j1Render::Save(pugi::xml_node&)
+bool j1Render::Save(pugi::xml_node& node)
 {
 	bool ret = true;
 
-	SaveRendererState();
+	SaveRendererState(node);
 
 	return true;
 }
 
-bool j1Render::Load(pugi::xml_node&)
+bool j1Render::Load(pugi::xml_node& node)
 {
 	bool ret = true;
 
-	LoadState(App->save_node);
+	LoadState(node);
 
 	return true;
 }
 
-bool j1Render::LoadState(pugi::xml_node&)
+bool j1Render::LoadState(pugi::xml_node& node)
 {
 	bool ret = true;
 
-	camera.x = App->save_node.child("renderer").child("camera").attribute("camerax").as_int();
-	camera.y = App->save_node.child("renderer").child("camera").attribute("cameray").as_int();
+	camera.x = node.child("camera").attribute("camerax").as_int();
+	camera.y = node.child("camera").attribute("cameray").as_int();
 
 	return true;
 }
 
-bool j1Render::SaveRendererState()
+bool j1Render::SaveRendererState(pugi::xml_node& node)
 {
 	bool ret = true;
 
-	//cam.append_attribute("camerax").set_value(55);
-	//cam.append_attribute("cameray").set_value(55);
-	//App->save_node.append_child("YOMOMMA");
-	cam.append_child("camera");
-	cam.child("camera").append_attribute("camerax").set_value(55);
-	cam.child("camera").append_attribute("cameray").set_value(55);
-	LOG("WAREHELL");
+	pugi::xml_node camera_node = node.append_child("camera");
+
+	camera_node.append_attribute("camerax").set_value(camera.x);
+	camera_node.append_attribute("cameray").set_value(camera.y);
 
 	return ret;
 }

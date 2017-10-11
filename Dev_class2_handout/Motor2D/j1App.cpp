@@ -59,12 +59,8 @@ bool j1App::Awake()
 {
 	bool ret = true;
 
-	bool ret2 = LoadConfigFile();
-	if (ret2 == false)
-		ret = false;
-
-	bool ret3 = LoadSaveFile();
-	if (ret3 == false)
+	ret = LoadConfigFile();
+	if (ret == false)
 		ret = false;
 
 	p2List_item<j1Module*>* item;
@@ -228,7 +224,7 @@ bool j1App::SaveFile()
 {
 	bool ret = true;
 	
-	SaveState();
+	SaveGameFile();
 
 	return ret;
 }
@@ -238,14 +234,7 @@ bool j1App::LoadFile()
 {
 	bool ret = true;
 
-	p2List_item<j1Module*>* item;
-	item = modules.start;
-
-	while (item != NULL && ret == true)
-	{
-		ret = item->data->Load(save_node.child(item->data->name.GetString()));
-		item = item->next;
-	}
+	LoadGameFile();
 
 	return ret;
 }
@@ -287,22 +276,58 @@ bool j1App::LoadConfigFile()
 	return ret;
 }
 
-// Load Save File ---------------------
-bool j1App::LoadSaveFile()
+// Save the state -----------------
+bool j1App::SaveGameFile()
 {
 	bool ret = true;
+
+	pugi::xml_document save_file;
+	save_file.append_child("savefile");
+
+	pugi::xml_node node = save_file.child("savefile");
+
+	p2List_item<j1Module*>* item = modules.end;
+
+	while (item != NULL && ret == true)
+	{
+		item->data->Save(node.append_child(item->data->name.GetString()));
+		item = item->next;
+	}
+
+	save_file.save_file("savefile.xml");
+
+	return true;
+}
+
+// Load the state ----------------
+bool j1App::LoadGameFile()
+{
+	bool ret = true;
+
+	pugi::xml_document save_file;
+	pugi::xml_node node;
+
 	pugi::xml_parse_result document_result = save_file.load_file("savefile.xml");
 
 	if (document_result)
 	{
-		LOG("LOADING XML FILE ====================");
-		LOG("The document savefile.xml has been loaded without any problem.");
+		LOG("LOADING SAVE FILE ====================");
+		LOG("The game has been loaded.");
 		LOG("=====================================");
-		save_node = save_file.child("savefile");
+		node = save_file.child("savefile");
+
+		p2List_item<j1Module*>* item = modules.end;
+
+		while (item != NULL && ret == true)
+		{
+			item->data->Load(node.child(item->data->name.GetString()));
+			item = item->next;
+		}
+		ret = true;
 	}
 	else
 	{
-		LOG("ERROR LOADING XML FILE ====================");
+		LOG("ERROR LOADING THE SAVE FILE ====================");
 		LOG("Error description: %s", document_result.description());
 		LOG("Error offset: %s", document_result.offset);
 		LOG("===========================================");
@@ -310,27 +335,4 @@ bool j1App::LoadSaveFile()
 	}
 
 	return ret;
-}
-
-// Save the state -----------------
-bool j1App::SaveState()
-{
-	bool ret = true;
-
-	save_file.append_child("savefile");
-	save_node = save_file.child("savefile");
-
-	p2List_item<j1Module*>* item = modules.end;
-
-	while (item != NULL && ret == true)
-	{
-		ret = save_node.append_child(item->data->name.GetString());
-		item->data->Save(save_node.child(item->data->name.GetString()));
-		
-		item = item->next;
-	}
-
-	save_file.save_file("savefile.xml");
-
-	return true;
 }

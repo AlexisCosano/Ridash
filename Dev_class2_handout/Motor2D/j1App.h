@@ -51,10 +51,10 @@ public:
 
 	// Load an XML file
 	bool LoadConfigFile();
-	bool LoadSaveFile();
 
 	// Save state
-	bool SaveState();
+	bool SaveGameFile();
+	bool LoadGameFile();
 
 private:
 
@@ -92,9 +92,7 @@ private:
 public:
 
 	pugi::xml_document  config;
-	pugi::xml_document  save_file;
 	pugi::xml_node      config_node;
-	pugi::xml_node      save_node;
 
 private:
 	int					argc;
