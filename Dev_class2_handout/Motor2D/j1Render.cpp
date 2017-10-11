@@ -84,16 +84,19 @@ bool j1Render::CleanUp()
 	return true;
 }
 
+// -----------------------------------------
 void j1Render::SetBackgroundColor(SDL_Color color)
 {
 	background = color;
 }
 
+// -----------------------------------------
 void j1Render::SetViewPort(const SDL_Rect& rect)
 {
 	SDL_RenderSetViewport(renderer, &rect);
 }
 
+// -----------------------------------------
 void j1Render::ResetViewPort()
 {
 	SDL_RenderSetViewport(renderer, &viewport);
@@ -237,6 +240,27 @@ bool j1Render::Save(pugi::xml_node&)
 bool j1Render::Load(pugi::xml_node&)
 {
 	bool ret = true;
+
+	LoadState(App->save_node);
+
+	return true;
+}
+
+bool j1Render::LoadState(pugi::xml_node&)
+{
+	bool ret = true;
+
+	camera.x = App->save_node.child("renderer").child("camera").attribute("camerax").as_int();
+	camera.y = App->save_node.child("renderer").child("camera").attribute("cameray").as_int();;
+
+	return true;
+}
+
+bool j1Render::SaveState(pugi::xml_node&)
+{
+	bool ret = true;
+
+
 
 	return true;
 }

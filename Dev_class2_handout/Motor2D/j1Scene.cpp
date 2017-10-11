@@ -45,6 +45,19 @@ bool j1Scene::PreUpdate()
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
+	// Save & Load
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+	{
+		LOG("Saving game... =========================");
+		App->WantToSave();
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+	{
+		LOG("Loading game... ========================");
+		App->WantToLoad();
+	}
+
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 		App->render->camera.y -= 1;
 

@@ -46,8 +46,8 @@ public:
 	bool SaveFile();
 	bool LoadFile();
 
-	bool WantToSave(pugi::xml_node&);
-	bool WantToLoad(pugi::xml_node&);
+	void WantToSave();
+	void WantToLoad();
 
 	// Load an XML file
 	bool LoadConfigFile();

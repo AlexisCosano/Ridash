@@ -67,6 +67,15 @@ bool j1App::Awake()
 	if (ret3 == false)
 		ret = false;
 
+	p2List_item<j1Module*>* item;
+	item = modules.start;
+
+	while (item != NULL && ret == true)
+	{
+		ret = item->data->Awake(config_node.child(item->data->name.GetString()));
+		item = item->next;
+	}
+
 	return ret;
 }
 
@@ -227,27 +236,28 @@ bool j1App::LoadFile()
 {
 	bool ret = true;
 
+	p2List_item<j1Module*>* item;
+	item = modules.start;
+
+	while (item != NULL && ret == true)
+	{
+		ret = item->data->Load(save_node.child(item->data->name.GetString()));
+		item = item->next;
+	}
+
 	return ret;
 }
 
 // ---------------------------------------
-bool j1App::WantToSave(pugi::xml_node&)
+void j1App::WantToSave()
 {
-	bool ret = true;
-
 	SaveFile();
-
-	return ret;
 }
 
 // ---------------------------------------
-bool j1App::WantToLoad(pugi::xml_node&)
+void j1App::WantToLoad()
 {
-	bool ret = true;
-
 	LoadFile();
-
-	return ret;
 }
 
 // Load Config file ---------------------
@@ -270,15 +280,6 @@ bool j1App::LoadConfigFile()
 		LOG("Error offset: %s", document_result.offset);
 		LOG("===========================================");
 		ret = false;
-	}
-	
-	p2List_item<j1Module*>* item;
-	item = modules.start;
-
-	while (item != NULL && ret == true)
-	{
-		ret = item->data->Awake(config_node.child(item->data->name.GetString()));
-		item = item->next;
 	}
 
 	return ret;
@@ -304,15 +305,6 @@ bool j1App::LoadSaveFile()
 		LOG("Error offset: %s", document_result.offset);
 		LOG("===========================================");
 		ret = false;
-	}
-
-	p2List_item<j1Module*>* item;
-	item = modules.start;
-
-	while (item != NULL && ret == true)
-	{
-		ret = item->data->Load(save_node.child(item->data->name.GetString()));
-		item = item->next;
 	}
 
 	return ret;

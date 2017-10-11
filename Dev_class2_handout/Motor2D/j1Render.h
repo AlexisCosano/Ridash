@@ -43,6 +43,9 @@ public:
 	bool Save(pugi::xml_node&);
 	bool Load(pugi::xml_node&);
 
+	bool SaveState(pugi::xml_node&);
+	bool LoadState(pugi::xml_node&);
+
 public:
 
 	SDL_Renderer*	renderer;
