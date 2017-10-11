@@ -29,7 +29,7 @@ bool j1Render::Awake(pugi::xml_node&)
 	flags |= SDL_RENDERER_PRESENTVSYNC;
 	renderer = SDL_CreateRenderer(App->win->window, -1, flags);
 
-	cam = App->save_node.append_child("renderer");
+	cam = App->save_node.child("renderer");
 
 	if(renderer == NULL)
 	{
@@ -40,8 +40,8 @@ bool j1Render::Awake(pugi::xml_node&)
 	{
 		camera.w = App->win->screen_surface->w;
 		camera.h = App->win->screen_surface->h;
-		camera.x = cam.attribute("camerax").as_int();
-		camera.y = cam.attribute("cameray").as_int();
+		camera.x = 0;
+		camera.y = 0;
 	}
 
 	return ret;
@@ -262,8 +262,13 @@ bool j1Render::SaveRendererState()
 {
 	bool ret = true;
 
-	cam.append_attribute("camerax").set_value(60);
-	cam.append_attribute("cameray").set_value(70);
+	//cam.append_attribute("camerax").set_value(55);
+	//cam.append_attribute("cameray").set_value(55);
+	//App->save_node.append_child("YOMOMMA");
+	cam.append_child("camera");
+	cam.child("camera").append_attribute("camerax").set_value(55);
+	cam.child("camera").append_attribute("cameray").set_value(55);
+	LOG("WAREHELL");
 
 	return ret;
 }

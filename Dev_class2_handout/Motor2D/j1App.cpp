@@ -317,20 +317,20 @@ bool j1App::SaveState()
 {
 	bool ret = true;
 
-	pugi::xml_document save_document;
-	save_document.append_child("savefile");
-
-	pugi::xml_node node = save_document.child("savefile");
+	save_file.append_child("savefile");
+	save_node = save_file.child("savefile");
 
 	p2List_item<j1Module*>* item = modules.end;
 
 	while (item != NULL && ret == true)
 	{
-		ret = node.append_child(item->data->name.GetString());
+		ret = save_node.append_child(item->data->name.GetString());
+		item->data->Save(save_node.child(item->data->name.GetString()));
+		
 		item = item->next;
 	}
 
-	save_document.save_file("savefile.xml");
+	save_file.save_file("savefile.xml");
 
 	return true;
 }

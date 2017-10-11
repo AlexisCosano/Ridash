@@ -1,4 +1,9 @@
 <?xml version="1.0"?>
 <savefile>
+	<renderer>
+		<camera camerax="55" cameray="55" camerax="55" cameray="55" />
+		<camera />
+	</renderer>
 	<renderer />
 </savefile>
+<savefile />
