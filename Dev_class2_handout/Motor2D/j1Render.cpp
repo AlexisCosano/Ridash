@@ -26,10 +26,10 @@ bool j1Render::Awake(pugi::xml_node&)
 	bool ret = true;
 	// load flags
 	Uint32 flags = SDL_RENDERER_ACCELERATED;
-
 	flags |= SDL_RENDERER_PRESENTVSYNC;
-	  
 	renderer = SDL_CreateRenderer(App->win->window, -1, flags);
+
+	cam = App->save_node.append_child("renderer");
 
 	if(renderer == NULL)
 	{
@@ -40,8 +40,8 @@ bool j1Render::Awake(pugi::xml_node&)
 	{
 		camera.w = App->win->screen_surface->w;
 		camera.h = App->win->screen_surface->h;
-		camera.x = 0;
-		camera.y = 0;
+		camera.x = cam.attribute("camerax").as_int();
+		camera.y = cam.attribute("cameray").as_int();
 	}
 
 	return ret;
@@ -234,6 +234,8 @@ bool j1Render::Save(pugi::xml_node&)
 {
 	bool ret = true;
 
+	SaveRendererState();
+
 	return true;
 }
 
@@ -251,16 +253,17 @@ bool j1Render::LoadState(pugi::xml_node&)
 	bool ret = true;
 
 	camera.x = App->save_node.child("renderer").child("camera").attribute("camerax").as_int();
-	camera.y = App->save_node.child("renderer").child("camera").attribute("cameray").as_int();;
+	camera.y = App->save_node.child("renderer").child("camera").attribute("cameray").as_int();
 
 	return true;
 }
 
-bool j1Render::SaveState(pugi::xml_node&)
+bool j1Render::SaveRendererState()
 {
 	bool ret = true;
 
+	cam.append_attribute("camerax").set_value(60);
+	cam.append_attribute("cameray").set_value(70);
 
-
-	return true;
+	return ret;
 }

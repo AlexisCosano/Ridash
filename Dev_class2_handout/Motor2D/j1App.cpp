@@ -9,7 +9,7 @@
 #include "j1Scene.h"
 #include "j1App.h"
 
-// Constructor
+// Constructor -----------------------------------------
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 {
 	frames = 0;
@@ -33,7 +33,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(render);
 }
 
-// Destructor
+// Destructor -----------------------------------------
 j1App::~j1App()
 {
 	// release modules
@@ -47,14 +47,14 @@ j1App::~j1App()
 
 	modules.clear();
 }
-
+ // --------------------------------------------------
 void j1App::AddModule(j1Module* module)
 {
 	module->Init();
 	modules.add(module);
 }
 
-// Called before render is available
+// Called before render is available -----------------
 bool j1App::Awake()
 {
 	bool ret = true;
@@ -79,7 +79,7 @@ bool j1App::Awake()
 	return ret;
 }
 
-// Called before the first frame
+// Called before the first frame -------------------
 bool j1App::Start()
 {
 	bool ret = true;
@@ -95,7 +95,7 @@ bool j1App::Start()
 	return ret;
 }
 
-// Called each loop iteration
+// Called each loop iteration ---------------------
 bool j1App::Update()
 {
 	bool ret = true;
@@ -227,6 +227,8 @@ const char* j1App::GetArgv(int index) const
 bool j1App::SaveFile()
 {
 	bool ret = true;
+	
+	SaveState();
 
 	return ret;
 }
@@ -285,7 +287,7 @@ bool j1App::LoadConfigFile()
 	return ret;
 }
 
-// Load Save File
+// Load Save File ---------------------
 bool j1App::LoadSaveFile()
 {
 	bool ret = true;
@@ -308,4 +310,27 @@ bool j1App::LoadSaveFile()
 	}
 
 	return ret;
+}
+
+// Save the state -----------------
+bool j1App::SaveState()
+{
+	bool ret = true;
+
+	pugi::xml_document save_document;
+	save_document.append_child("savefile");
+
+	pugi::xml_node node = save_document.child("savefile");
+
+	p2List_item<j1Module*>* item = modules.end;
+
+	while (item != NULL && ret == true)
+	{
+		ret = node.append_child(item->data->name.GetString());
+		item = item->next;
+	}
+
+	save_document.save_file("savefile.xml");
+
+	return true;
 }

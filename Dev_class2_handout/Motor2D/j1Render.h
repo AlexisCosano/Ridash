@@ -43,15 +43,19 @@ public:
 	bool Save(pugi::xml_node&);
 	bool Load(pugi::xml_node&);
 
-	bool SaveState(pugi::xml_node&);
+	bool SaveRendererState();
 	bool LoadState(pugi::xml_node&);
 
 public:
-
+	
 	SDL_Renderer*	renderer;
 	SDL_Rect		camera;
 	SDL_Rect		viewport;
 	SDL_Color		background;
+
+private: 
+	
+	pugi::xml_node cam;
 };
 
 #endif // __j1RENDER_H__

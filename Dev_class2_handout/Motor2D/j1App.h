@@ -53,6 +53,9 @@ public:
 	bool LoadConfigFile();
 	bool LoadSaveFile();
 
+	// Save state
+	bool SaveState();
+
 private:
 
 	// Call modules before each loop iteration
@@ -87,6 +90,7 @@ private:
 	float				dt;
 
 public:
+
 	pugi::xml_document  config;
 	pugi::xml_document  save_file;
 	pugi::xml_node      config_node;
