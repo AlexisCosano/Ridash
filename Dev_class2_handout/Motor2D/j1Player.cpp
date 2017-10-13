@@ -11,7 +11,10 @@ j1Player::j1Player() : j1Module()
 {
 	name.create("player");
 	position.x = position.y = 0;
-	
+	speed.x = 5;
+	speed.y = 0.155;
+	grounded = true;
+	affected_by_gravity = true;
 }
 
 // Destructor ---------------------------------
@@ -35,12 +38,13 @@ bool j1Player::Update(float dt)
 
 	// Player Controls
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-		position.x -= 1;
+		position.x -= 1 * speed.x;
 		
-
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-		position.x += 1;
+		position.x += 1 * speed.x;
 
+	
+	position.y += speed.y*(1.f, 60.f);
 		
 
 	return ret;
@@ -53,6 +57,9 @@ bool j1Player::CleanUp()
 
 	return true;
 }
+
+// Player set speed -------------------------
+
 
 // Save & Load ------------------------------
 bool j1Player::Save(pugi::xml_node&)
