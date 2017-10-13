@@ -6,8 +6,26 @@
 #include "p2Point.h"
 #include "j1Module.h"
 
+struct MapLayer
+{
+	p2SString			name;
+	int					width;
+	int					height;
+	uint*				data;
+
+	MapLayer() :data(NULL) {}
+	~MapLayer() { RELEASE(data); }
+
+	inline uint Get(int x, int y) const
+	{
+		return data[(y*width) + x];
+	}
+};
+
 struct TileSet
 {
+	SDL_Rect GetTileRect(int id) const;
+
 	p2SString			name;
 	int					firstgid;
 	int					margin;
@@ -40,6 +58,7 @@ struct MapData
 	SDL_Color			background_color;
 	MapTypes			type;
 	p2List<TileSet*>	tilesets;
+	p2List<MapLayer*>	layers;
 };
 
 class j1Map : public j1Module
@@ -64,12 +83,15 @@ public:
 	bool Load(const char* path);
 
 	iPoint MapToWorld(int x, int y) const;
+	iPoint WorldToMap(int x, int y) const;
 
 private:
 
 	bool LoadMap();
 	bool LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set);
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
+	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
+
 public:
 
 	MapData data;

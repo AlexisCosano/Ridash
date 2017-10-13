@@ -8,7 +8,7 @@
 #include "j1Window.h"
 #include "j1Player.h"
 #include "j1Scene.h"
-
+#include "j1Map.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -75,6 +75,16 @@ bool j1Scene::Update(float dt)
 	App->render->Blit(main_character->texture, main_character->position.x, main_character->position.y);
 	main_character->Update(dt);
 
+	int x, y;
+	App->input->GetMousePosition(x, y);
+	iPoint map_coordinates = App->map->WorldToMap(x - App->render->camera.x, y - App->render->camera.y);
+	p2SString title("Map:%dx%d Tiles:%dx%d Tilesets:%d Tile:%d,%d ",
+		App->map->data.width, App->map->data.height,
+		App->map->data.tile_width, App->map->data.tile_height,
+		App->map->data.tilesets.count(),
+		map_coordinates.x, map_coordinates.y);
+
+	App->win->SetTitle(title.GetString());
 	return true;
 }
 
