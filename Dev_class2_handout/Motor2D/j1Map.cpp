@@ -208,8 +208,6 @@ bool j1Map::Load(const char* file_name)
 
 	if (ret == true)
 	{
-		// TODO 3: Create and call a private function to load and fill
-		// all your map data
 		ret = LoadMap();
 	}
 

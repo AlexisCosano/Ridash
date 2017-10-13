@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <savefile>
 	<renderer>
-		<camera camerax="345" cameray="145" />
+		<camera camerax="0" cameray="0" />
 	</renderer>
 </savefile>
