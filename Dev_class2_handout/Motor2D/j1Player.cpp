@@ -5,16 +5,23 @@
 #include "j1Textures.h"
 #include "j1Render.h"
 #include "j1Input.h"
+#include "j1Scene.h"
 
 
 j1Player::j1Player() : j1Module()
 {
 	name.create("player");
-	position.x = position.y = 0;
-	speed.x = 5;
-	speed.y = 0.155;
+
+	position.SetToZero();
+
+	speed.x = 3;
+	speed.y = 60;
+
+	gravity.x = 0;
+	gravity.y = 8;
+
 	grounded = true;
-	affected_by_gravity = true;
+	dash = false;
 }
 
 // Destructor ---------------------------------
@@ -27,7 +34,7 @@ bool j1Player::Awake(pugi::xml_node&)
 {
 	LOG("Init player");
 	bool ret = true;
-	
+	LOG(" INITIAL Position = (%i, %i)", position.x, position.y);
 	return ret;
 }
 
@@ -43,10 +50,22 @@ bool j1Player::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		position.x += 1 * speed.x;
 
-	
-	position.y += speed.y*(1.f, 60.f);
-		
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+		dash = true;
 
+	if (dash == true)
+	{
+		for (int i = 0; i <= 15; ++i)
+		{
+			position.x += i;
+			App->render->Blit(App->scene->main_character->texture, position.x, position.y);
+		}
+
+		dash = false;
+	}
+	else
+		App->render->Blit(App->scene->main_character->texture, position.x, position.y);
+	
 	return ret;
 }
 
@@ -58,8 +77,7 @@ bool j1Player::CleanUp()
 	return true;
 }
 
-// Player set speed -------------------------
-
+// Dash -------------------------------------
 
 // Save & Load ------------------------------
 bool j1Player::Save(pugi::xml_node&)

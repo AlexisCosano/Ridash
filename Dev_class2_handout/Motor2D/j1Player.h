@@ -29,8 +29,9 @@ public:
 public:
 
 	p2Point<int> position;
-	p2Point<float> speed;
+	p2Point<int> speed;
+	p2Point<int> gravity;
 	SDL_Texture* texture = nullptr;
 	bool grounded;
-	bool affected_by_gravity;
+	bool dash;
 };

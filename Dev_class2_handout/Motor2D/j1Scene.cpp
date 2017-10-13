@@ -73,7 +73,7 @@ bool j1Scene::Update(float dt)
 		App->render->camera.x += 1;
 
 	main_character->Update(dt);
-	App->render->Blit(main_character->texture, main_character->position.x, main_character->position.y);
+	//App->render->Blit(main_character->texture, main_character->position.x, main_character->position.y);
 
 	return true;
 }

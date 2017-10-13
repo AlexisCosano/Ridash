@@ -33,9 +33,13 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+
+public:
+	j1Player*    main_character;
+
 private:
 	SDL_Texture* img;
-	j1Player*    main_character;
+	
 };
 
 #endif // __j1SCENE_H__
