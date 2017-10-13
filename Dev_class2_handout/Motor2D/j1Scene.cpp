@@ -59,7 +59,7 @@ bool j1Scene::Update(float dt)
 		LOG("Loading game... ========================");
 		App->WantToLoad();
 	}
-
+	
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 		App->render->camera.y -= 1;
 
@@ -72,8 +72,8 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		App->render->camera.x += 1;
 
+	App->render->Blit(main_character->texture, main_character->position.x, main_character->position.y);
 	main_character->Update(dt);
-	//App->render->Blit(main_character->texture, main_character->position.x, main_character->position.y);
 
 	return true;
 }

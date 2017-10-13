@@ -26,12 +26,14 @@ public:
 	bool Save(pugi::xml_node&);
 	bool Load(pugi::xml_node&);
 
+	void Dash(int direction);
+
 public:
 
 	p2Point<int> position;
 	p2Point<int> speed;
 	p2Point<int> gravity;
 	SDL_Texture* texture = nullptr;
+	int direction;
 	bool grounded;
-	bool dash;
 };
