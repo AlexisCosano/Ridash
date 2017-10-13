@@ -6,6 +6,7 @@
 #include "j1Audio.h"
 #include "j1Render.h"
 #include "j1Window.h"
+#include "j1Player.h"
 #include "j1Scene.h"
 
 
@@ -30,8 +31,9 @@ bool j1Scene::Awake()
 // Called before the first frame
 bool j1Scene::Start()
 {
-	img = App->tex->Load("textures/test.png");
-	App->audio->PlayMusic("audio/music/music_sadpiano.ogg");
+	//App->audio->PlayMusic("audio/music/music_sadpiano.ogg");
+	main_character = new j1Player();
+	main_character->texture = App->tex->Load("textures/Santa.png");
 	return true;
 }
 
@@ -70,7 +72,9 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		App->render->camera.x += 1;
 
-	App->render->Blit(img, 0, 0);
+	main_character->Update(dt);
+	App->render->Blit(main_character->texture, main_character->position.x, main_character->position.y);
+
 	return true;
 }
 
@@ -89,6 +93,5 @@ bool j1Scene::PostUpdate()
 bool j1Scene::CleanUp()
 {
 	LOG("Freeing scene");
-
 	return true;
 }

@@ -4,6 +4,7 @@
 #include "j1Module.h"
 
 struct SDL_Texture;
+class j1Player;
 
 class j1Scene : public j1Module
 {
@@ -34,6 +35,7 @@ public:
 
 private:
 	SDL_Texture* img;
+	j1Player*    main_character;
 };
 
 #endif // __j1SCENE_H__
