@@ -64,7 +64,11 @@ bool j1Player::Update(float dt)
 		dash = false;
 	}
 	else
+	{
 		App->render->Blit(App->scene->main_character->texture, position.x, position.y);
+		position += gravity;
+	}
+		
 	
 	return ret;
 }
