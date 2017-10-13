@@ -57,8 +57,16 @@ iPoint j1Map::MapToWorld(int x, int y) const
 {
 	iPoint ret;
 
-	ret.x = x * data.tile_width;
-	ret.y = y * data.tile_height;
+	if (data.type == MAPTYPE_ORTHOGONAL)
+	{
+		ret.x = x * data.tile_width;
+		ret.y = y * data.tile_height;
+	}
+	else
+	{
+		LOG("Unknown map type");
+		ret.x = x; ret.y = y;
+	}
 
 	return ret;
 }
