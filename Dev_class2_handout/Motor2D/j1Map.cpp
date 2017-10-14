@@ -39,7 +39,6 @@ void j1Map::Draw()
 			int tile_id = layer->Get(x, y);
 			if (tile_id > 0)
 			{
-				// TODO 10(old): Complete the draw function
 				TileSet* tileset = data.tilesets.start->data;
 
 				SDL_Rect r = tileset->GetTileRect(tile_id);
@@ -301,8 +300,6 @@ bool j1Map::Load(const char* file_name)
 		ret = LoadMap();
 	}
 
-	// TODO 4: Create and call a private function to load a tileset
-	// remember to support more any number of tilesets!
 	pugi::xml_node tileset;
 	for (tileset = map_file.child("map").child("tileset"); tileset && ret; tileset = tileset.next_sibling("tileset"))
 	{

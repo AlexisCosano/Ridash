@@ -24,4 +24,8 @@
 		<volume vol="100" />
 		<mute muted="false" />
 	</audio>
+	
+	<map>
+		<folder>map/</folder>
+	</map>
 </config>
