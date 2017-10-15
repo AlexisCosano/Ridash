@@ -171,6 +171,11 @@ bool j1Player::Update(float dt)
 		position = App->map->spawn_point;
 	}
 
+	if (CheckVictory() == true)
+	{
+		LOG("You've won!");
+	}
+
 	return ret;
 }
 
@@ -225,6 +230,22 @@ bool j1Player::CheckDeath()
 	p2List_item<SDL_Rect>* item = App->colliders->death_triggers.start;
 
 	for (item; item != App->colliders->death_triggers.end; item = item->next)
+	{
+		ret = App->colliders->CheckCollision(player_rect, item->data);
+		if (ret)
+			return ret;
+	}
+
+	return ret;
+}
+
+// Victory
+bool j1Player::CheckVictory()
+{
+	bool ret = false;
+	p2List_item<SDL_Rect>* item = App->colliders->victory_triggers.start;
+
+	for (item; item != App->colliders->victory_triggers.end; item = item->next)
 	{
 		ret = App->colliders->CheckCollision(player_rect, item->data);
 		if (ret)

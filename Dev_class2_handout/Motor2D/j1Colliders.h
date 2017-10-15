@@ -30,6 +30,7 @@ public:
 	bool CheckCollision(SDL_Rect r1, SDL_Rect r2) const;
 	void AddColliders(SDL_Rect collider);
 	void AddDeath(SDL_Rect death);
+	void AddVictory(SDL_Rect victory);
 
 	// Save & Load
 	bool Save(pugi::xml_node&);
@@ -38,6 +39,7 @@ public:
 public:
 	p2List<SDL_Rect> colliders;
 	p2List<SDL_Rect> death_triggers;
+	p2List<SDL_Rect> victory_triggers;
 
 private:
 

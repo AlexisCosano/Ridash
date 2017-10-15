@@ -96,6 +96,7 @@ private:
 	void FindColliders(MapLayer* layer);
 	void FindSpawn(MapLayer* layer);
 	void FindDeath(MapLayer* layer);
+	void FindVictory(MapLayer* layer);
 
 public:
 

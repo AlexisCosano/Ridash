@@ -32,6 +32,7 @@ public:
 	void Dash();
 	bool CheckCollisions();
 	bool CheckDeath();
+	bool CheckVictory();
 	void SetTexture(SDL_Texture* texture);
 
 public:

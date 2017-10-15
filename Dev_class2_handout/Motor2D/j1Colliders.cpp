@@ -51,6 +51,11 @@ void j1Colliders::AddDeath(SDL_Rect death)
 	death_triggers.add(death);
 }
 
+void j1Colliders::AddVictory(SDL_Rect victory)
+{
+	victory_triggers.add(victory);
+}
+
 bool j1Colliders::Save(pugi::xml_node &)
 {
 	return true;
