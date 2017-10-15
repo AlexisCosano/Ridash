@@ -46,6 +46,11 @@ void j1Colliders::AddColliders(SDL_Rect collider)
 	colliders.add(collider);
 }
 
+void j1Colliders::AddDeath(SDL_Rect death)
+{
+	death_triggers.add(death);
+}
+
 bool j1Colliders::Save(pugi::xml_node &)
 {
 	return true;

@@ -5,6 +5,7 @@
 #include "j1Textures.h"
 #include "j1Colliders.h"
 #include "j1Map.h"
+#include "j1Player.h"
 #include <math.h>
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
@@ -264,6 +265,16 @@ bool j1Map::LoadLayer(pugi::xml_node & node, MapLayer * layer)
 		FindColliders(layer);
 	}
 
+	if(layer->name == "spawn")
+	{ 
+		FindSpawn(layer);
+	}
+
+	if (layer->name == "death")
+	{
+		FindDeath(layer);
+	}
+
 	return ret;
 }
 
@@ -285,6 +296,48 @@ void j1Map::FindColliders(MapLayer* layer)
 				r.y = pos.y;
 
 				App->colliders->AddColliders(r);
+			}
+		}
+	}
+}
+
+void j1Map::FindDeath(MapLayer* layer)
+{
+	for (int y = 0; y < data.height; ++y)
+	{
+		for (int x = 0; x < data.width; ++x)
+		{
+			int tile_id = layer->Get(x, y);
+			if (tile_id > 0)
+			{
+				TileSet* tileset = data.tilesets.start->data;
+
+				SDL_Rect r = tileset->GetTileRect(tile_id);
+				iPoint pos = MapToWorld(x, y);
+
+				r.x = pos.x;
+				r.y = pos.y;
+
+				App->colliders->AddDeath(r);
+			}
+		}
+	}
+}
+
+void j1Map::FindSpawn(MapLayer* layer)
+{
+	for (int y = 0; y < data.height; ++y)
+	{
+		for (int x = 0; x < data.width; ++x)
+		{
+			int tile_id = layer->Get(x, y);
+			if (tile_id > 0)
+			{
+				TileSet* tileset = data.tilesets.start->data;
+
+				iPoint pos = MapToWorld(x, y);
+
+				spawn_point = pos;
 			}
 		}
 	}

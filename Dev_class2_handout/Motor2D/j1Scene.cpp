@@ -32,9 +32,12 @@ bool j1Scene::Awake()
 bool j1Scene::Start()
 {
 	//App->audio->PlayMusic("audio/music/music_sadpiano.ogg");
-	main_character = new j1Player();
-	main_character->texture = App->tex->Load("textures/Santa.png");
+	
 	App->map->Load("level2.tmx");
+	main_character = App->player;
+	main_character->position = App->map->spawn_point;
+	main_character->texture = App->tex->Load("textures/Santa.png");
+
 	return true;
 }
 
@@ -61,22 +64,12 @@ bool j1Scene::Update(float dt)
 		App->WantToLoad();
 	}
 	
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		App->render->camera.y -= 10;
-
-	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		App->render->camera.y += 10;
-
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		App->render->camera.x -= 10;
-
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		App->render->camera.x += 10;
+	App->render->camera.x = (App->map->spawn_point.x - main_character->position.x);
+	App->render->camera.y = (App->map->spawn_point.y - main_character->position.y);
 
 	App->map->Draw();
 
 	App->render->Blit(main_character->texture, main_character->position.x, main_character->position.y);
-	main_character->Update(dt);
 
 	int x, y;
 	App->input->GetMousePosition(x, y);

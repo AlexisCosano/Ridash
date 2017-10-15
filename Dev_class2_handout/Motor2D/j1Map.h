@@ -94,10 +94,13 @@ private:
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
 	void FindColliders(MapLayer* layer);
+	void FindSpawn(MapLayer* layer);
+	void FindDeath(MapLayer* layer);
 
 public:
 
 	MapData data;
+	iPoint spawn_point;
 
 private:
 	pugi::xml_document	map_file;

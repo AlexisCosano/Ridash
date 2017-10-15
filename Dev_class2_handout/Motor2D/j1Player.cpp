@@ -7,14 +7,14 @@
 #include "j1Input.h"
 #include "j1Scene.h"
 #include "j1Colliders.h"
+#include "j1Map.h"
 
 
 j1Player::j1Player() : j1Module()
 {
 	name.create("player");
 
-	position.x = 550;
-	position.y = 250;
+	position.SetToZero();
 
 	speed.x = 3;
 	speed.y = 60;
@@ -166,6 +166,11 @@ bool j1Player::Update(float dt)
 		}
 	}
 
+	if (CheckDeath() == true)
+	{
+		position = App->map->spawn_point;
+	}
+
 	return ret;
 }
 
@@ -204,6 +209,22 @@ bool j1Player::CheckCollisions()
 	p2List_item<SDL_Rect>* item = App->colliders->colliders.start;
 
 	for (item; item != App->colliders->colliders.end; item = item->next)
+	{
+		ret = App->colliders->CheckCollision(player_rect, item->data);
+		if (ret)
+			return ret;
+	}
+
+	return ret;
+}
+
+// Death
+bool j1Player::CheckDeath()
+{
+	bool ret = false;
+	p2List_item<SDL_Rect>* item = App->colliders->death_triggers.start;
+
+	for (item; item != App->colliders->death_triggers.end; item = item->next)
 	{
 		ret = App->colliders->CheckCollision(player_rect, item->data);
 		if (ret)

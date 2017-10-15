@@ -38,8 +38,7 @@ public:
 	j1Player*    main_character;
 
 private:
-	SDL_Texture* img;
-	
+	SDL_Texture* img;	
 };
 
 #endif // __j1SCENE_H__
