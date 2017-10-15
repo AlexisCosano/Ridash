@@ -1,6 +1,16 @@
 <?xml version="1.0"?>
 <savefile>
+	<input />
+	<window />
+	<textures />
+	<audio />
+	<:anonymous />
+	<scene />
+	<map />
+	<player>
+		<position positionx="674" positiony="1006" />
+	</player>
 	<renderer>
-		<camera camerax="0" cameray="0" />
+		<camera camerax="-290" cameray="-740" />
 	</renderer>
 </savefile>

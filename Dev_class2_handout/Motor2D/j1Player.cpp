@@ -278,8 +278,8 @@ bool j1Player::LoadState(pugi::xml_node& node)
 {
 	bool ret = true;
 
-	position.x = node.child("camera").attribute("camerax").as_int();
-	position.y = node.child("camera").attribute("cameray").as_int();
+	position.x = node.child("position").attribute("positionx").as_int();
+	position.y = node.child("position").attribute("positiony").as_int();
 
 	return true;
 }
