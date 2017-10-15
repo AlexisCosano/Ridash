@@ -52,13 +52,13 @@ bool j1Scene::PreUpdate()
 bool j1Scene::Update(float dt)
 {
 	// Save & Load
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 	{
 		LOG("Saving game... =========================");
 		App->WantToSave();
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 	{
 		LOG("Loading game... ========================");
 		App->WantToLoad();
