@@ -46,8 +46,13 @@ void j1Map::Draw()
 				int tile_id = layer->Get(x, y);
 				if (tile_id > 0)
 				{
-					TileSet* tileset = data.tilesets.start->data;
+					TileSet* tileset = layer->tile_set;
 
+					if (tileset == NULL)
+					{
+						tileset = data.tilesets.start->data;
+					}
+					
 					SDL_Rect r = tileset->GetTileRect(tile_id);
 					iPoint pos = MapToWorld(x, y);
 
@@ -240,7 +245,7 @@ bool j1Map::LoadLayer(pugi::xml_node & node, MapLayer * layer)
 
 	pugi::xml_node layer_data = node.child("data");
 
-
+	
 	if (layer_data == NULL)
 	{
 		LOG("Error parsing map xml file: Cannot find 'layer/data' tag.");
@@ -449,9 +454,25 @@ bool j1Map::Load(const char* file_name)
 
 		if (ret == true)
 		{ 
-			data.layers.add(lay);
 			if (lay->draw == true)
+			{
+				p2List_item<TileSet*>* item = data.tilesets.start;
+
+				lay->tile_set = data.tilesets.start->data;
+
+				for (item; item != NULL; item = item->next)
+				{
+					if (item->data->name == lay->name)
+					{
+						lay->tile_set = item->data;
+						break;
+					}
+				}
 				data.draw_layers.add(lay);
+			}
+
+			data.layers.add(lay);
+				
 		}
 			
 	}

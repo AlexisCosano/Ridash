@@ -16,27 +16,26 @@ j1Player::j1Player() : j1Module()
 
 	position.SetToZero();
 
-	speed.x = 5;
+	speed.x = 15;
 	speed.y = 60;
 
 	dashing_speed = 20;
 
-	dash_distance = 256.f;
+	dash_distance = 370.f;
 	current_dash_distance = 0.f;
 
 	gravity.x = 0;
-	gravity.y = 10;
+	gravity.y = 15;
 
 	player_rect = { 0, 0, 77, 128 };
 
 	direction = 1; // 1 - right, -1 - left
 
 	jumping = false;
-	jump_force = 13;
-	jump_distance = 256.f;
+	dashing = false;
+	jump_force = 15;
+	jump_distance = 370.f;
 	current_jump_distance = 0.f;
-
-	bool grounded;
 }
 
 // Destructor ---------------------------------
@@ -173,7 +172,7 @@ bool j1Player::Update(float dt)
 
 	if (CheckVictory() == true)
 	{
-		LOG("You've won!");
+		ret = false;
 	}
 
 	return ret;

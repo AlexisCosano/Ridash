@@ -47,7 +47,6 @@ public:
 	SDL_Texture* texture = nullptr;
 	int direction;
 	int dashing_speed;
-	bool grounded;
 	bool dashing;
 	float dash_distance;
 	float current_dash_distance;

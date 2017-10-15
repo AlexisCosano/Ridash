@@ -6,22 +6,7 @@
 #include "p2Point.h"
 #include "j1Module.h"
 
-struct MapLayer
-{
-	p2SString			name;
-	bool                draw;
-	int					width;
-	int					height;
-	uint*				data;
 
-	MapLayer() :data(NULL) {}
-	~MapLayer() { RELEASE(data); }
-
-	inline uint Get(int x, int y) const
-	{
-		return data[(y*width) + x];
-	}
-};
 
 struct TileSet
 {
@@ -40,6 +25,23 @@ struct TileSet
 	int					num_tiles_height;
 	int					offset_x;
 	int					offset_y;
+};
+
+struct MapLayer
+{
+	p2SString			name;
+	bool                draw;
+	int					width;
+	int					height;
+	uint*				data;
+	TileSet*			tile_set;
+	MapLayer() :data(NULL) {}
+	~MapLayer() { RELEASE(data); }
+
+	inline uint Get(int x, int y) const
+	{
+		return data[(y*width) + x];
+	}
 };
 
 enum MapTypes

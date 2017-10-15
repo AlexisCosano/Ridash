@@ -37,7 +37,8 @@ bool j1Scene::Start()
 	main_character = App->player;
 	main_character->position = App->map->spawn_point;
 	main_character->texture = App->tex->Load("textures/Santa.png");
-
+	offset.x = 380;
+	offset.y = 320;
 	return true;
 }
 
@@ -73,9 +74,9 @@ bool j1Scene::Update(float dt)
 		LOG("Loading game...");
 		App->WantToLoad();
 	}
-
-	App->render->camera.x = (App->map->spawn_point.x - main_character->position.x);
-	App->render->camera.y = (App->map->spawn_point.y - main_character->position.y);
+	
+	App->render->camera.x = -main_character->position.x + offset.x;
+	App->render->camera.y = -main_character->position.y + offset.y;
 
 	App->map->Draw();
 

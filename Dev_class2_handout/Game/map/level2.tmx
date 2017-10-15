@@ -3,7 +3,7 @@
  <tileset firstgid="1" name="Tileset" tilewidth="128" tileheight="128" spacing="1" tilecount="28">
   <image source="Tileset.png" width="908" height="515"/>
  </tileset>
- <tileset firstgid="29" name="Background" tilewidth="128" tileheight="128" tilecount="70">
+ <tileset firstgid="29" name="background" tilewidth="128" tileheight="128" tilecount="70">
   <image source="Background.png" width="1280" height="896"/>
   <tile id="66">
    <properties>
@@ -12,6 +12,9 @@
   </tile>
  </tileset>
  <layer name="background" width="50" height="20">
+  <properties>
+   <property name="draw" value="true"/>
+  </properties>
   <data>
    <tile gid="29"/>
    <tile gid="30"/>
