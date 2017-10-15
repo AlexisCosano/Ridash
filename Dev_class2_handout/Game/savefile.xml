@@ -11,6 +11,6 @@
 		<position positionx="674" positiony="1006" />
 	</player>
 	<renderer>
-		<camera camerax="-290" cameray="-740" />
+		<camera camerax="674" cameray="1006" />
 	</renderer>
 </savefile>

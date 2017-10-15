@@ -36,7 +36,9 @@ public:
 
 public:
 	j1Player*    main_character;
+	iPoint offset;
 
+	uint actual_level = 0;
 private:
 	SDL_Texture* img;	
 };

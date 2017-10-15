@@ -21,22 +21,21 @@ j1Player::j1Player() : j1Module()
 
 	dashing_speed = 20;
 
-	dash_distance = 256.f;
+	dash_distance = 370.f;
 	current_dash_distance = 0.f;
 
 	gravity.x = 0;
-	gravity.y = 10;
+	gravity.y = 20;
 
 	player_rect = { 0, 0, 77, 128 };
 
 	direction = 1; // 1 - right, -1 - left
 
+	dashing = false;
 	jumping = false;
-	jump_force = 13;
+	jump_force = 15;
 	jump_distance = 256.f;
 	current_jump_distance = 0.f;
-
-	bool grounded;
 }
 
 // Destructor ---------------------------------
@@ -174,6 +173,7 @@ bool j1Player::Update(float dt)
 	if (CheckVictory() == true)
 	{
 		LOG("You've won!");
+		ret = false;
 	}
 
 	return ret;

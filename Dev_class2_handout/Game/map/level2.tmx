@@ -12,6 +12,9 @@
   </tile>
  </tileset>
  <layer name="background" width="50" height="20">
+  <properties>
+   <property name="draw" value="true"/>
+  </properties>
   <data>
    <tile gid="29"/>
    <tile gid="30"/>
