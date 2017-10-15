@@ -35,6 +35,9 @@ public:
 	bool CheckVictory();
 	void SetTexture(SDL_Texture* texture);
 
+	bool SavePlayerState(pugi::xml_node& node);
+	bool LoadState(pugi::xml_node& node);
+
 public:
 
 	SDL_Rect player_rect;

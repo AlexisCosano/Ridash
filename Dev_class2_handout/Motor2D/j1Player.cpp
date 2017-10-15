@@ -16,23 +16,23 @@ j1Player::j1Player() : j1Module()
 
 	position.SetToZero();
 
-	speed.x = 3;
+	speed.x = 5;
 	speed.y = 60;
 
-	dashing_speed = 10;
+	dashing_speed = 20;
 
 	dash_distance = 256.f;
 	current_dash_distance = 0.f;
 
 	gravity.x = 0;
-	gravity.y = 8;
+	gravity.y = 10;
 
 	player_rect = { 0, 0, 77, 128 };
 
 	direction = 1; // 1 - right, -1 - left
 
 	jumping = false;
-	jump_force = 16;
+	jump_force = 13;
 	jump_distance = 256.f;
 	current_jump_distance = 0.f;
 
@@ -256,16 +256,42 @@ bool j1Player::CheckVictory()
 }
 
 // Save & Load ------------------------------
-bool j1Player::Save(pugi::xml_node&)
+bool j1Player::Save(pugi::xml_node& node)
 {
 	bool ret = true;
+
+	SavePlayerState(node);
 
 	return true;
 }
 
-bool j1Player::Load(pugi::xml_node&)
+bool j1Player::Load(pugi::xml_node& node)
 {
 	bool ret = true;
 
+	LoadState(node);
+
 	return true;
+}
+
+bool j1Player::LoadState(pugi::xml_node& node)
+{
+	bool ret = true;
+
+	position.x = node.child("camera").attribute("camerax").as_int();
+	position.y = node.child("camera").attribute("cameray").as_int();
+
+	return true;
+}
+
+bool j1Player::SavePlayerState(pugi::xml_node& node)
+{
+	bool ret = true;
+
+	pugi::xml_node player_node = node.append_child("position");
+
+	player_node.append_attribute("positionx").set_value(position.x);
+	player_node.append_attribute("positiony").set_value(position.y);
+
+	return ret;
 }
