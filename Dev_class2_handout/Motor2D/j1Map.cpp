@@ -1,8 +1,9 @@
-#include "p2Defs.h"
+﻿#include "p2Defs.h"
 #include "p2Log.h"
 #include "j1App.h"
 #include "j1Render.h"
 #include "j1Textures.h"
+#include "j1Colliders.h"
 #include "j1Map.h"
 #include <math.h>
 
@@ -30,26 +31,30 @@ void j1Map::Draw()
 {
 	if (map_loaded == false)
 		return;
-	MapLayer* layer = data.layers.start->data;
+	
+	p2List_item<MapLayer*>* item = data.draw_layers.start;
 
-	for (int y = 0; y < data.height; ++y)
+	for (item; item != data.draw_layers.end; item = item->next)
 	{
-		for (int x = 0; x < data.width; ++x)
+		MapLayer* layer = item->data;
+		
+		for (int y = 0; y < data.height; ++y)
 		{
-			int tile_id = layer->Get(x, y);
-			if (tile_id > 0)
+			for (int x = 0; x < data.width; ++x)
 			{
-				TileSet* tileset = data.tilesets.start->data;
+				int tile_id = layer->Get(x, y);
+				if (tile_id > 0)
+				{
+					TileSet* tileset = data.tilesets.start->data;
 
-				SDL_Rect r = tileset->GetTileRect(tile_id);
-				iPoint pos = MapToWorld(x, y);
+					SDL_Rect r = tileset->GetTileRect(tile_id);
+					iPoint pos = MapToWorld(x, y);
 
-				App->render->Blit(tileset->texture, pos.x, pos.y, &r);
+					App->render->Blit(tileset->texture, pos.x, pos.y, &r);
+				}
 			}
 		}
 	}
-
-
 }
 
 iPoint j1Map::MapToWorld(int x, int y) const
@@ -227,7 +232,13 @@ bool j1Map::LoadLayer(pugi::xml_node & node, MapLayer * layer)
 	layer->name = node.attribute("name").as_string();
 	layer->width = node.attribute("width").as_int();
 	layer->height = node.attribute("height").as_int();
+	
+	pugi::xml_node layer_properties = node.child("properties");
+
+	layer->draw = layer_properties.child("property").attribute("value").as_bool();
+
 	pugi::xml_node layer_data = node.child("data");
+
 
 	if (layer_data == NULL)
 	{
@@ -247,8 +258,38 @@ bool j1Map::LoadLayer(pugi::xml_node & node, MapLayer * layer)
 		}
 	}
 
+	// It's an apaño ¯\_(ツ)_/¯
+	if (layer->name == "colliders")
+	{
+		FindColliders(layer);
+	}
+
 	return ret;
 }
+
+void j1Map::FindColliders(MapLayer* layer)
+{
+	for (int y = 0; y < data.height; ++y)
+	{
+		for (int x = 0; x < data.width; ++x)
+		{
+			int tile_id = layer->Get(x, y);
+			if (tile_id > 0)
+			{
+				TileSet* tileset = data.tilesets.start->data;
+
+				SDL_Rect r = tileset->GetTileRect(tile_id);
+				iPoint pos = MapToWorld(x, y);
+
+				r.x = pos.x;
+				r.y = pos.y;
+
+				App->colliders->AddColliders(r);
+			}
+		}
+	}
+}
+
 // Called before quitting
 bool j1Map::CleanUp()
 {
@@ -326,7 +367,12 @@ bool j1Map::Load(const char* file_name)
 		ret = LoadLayer(layer, lay);
 
 		if (ret == true)
+		{ 
 			data.layers.add(lay);
+			if (lay->draw == true)
+				data.draw_layers.add(lay);
+		}
+			
 	}
 
 	if (ret == true)

@@ -34,7 +34,7 @@ bool j1Scene::Start()
 	//App->audio->PlayMusic("audio/music/music_sadpiano.ogg");
 	main_character = new j1Player();
 	main_character->texture = App->tex->Load("textures/Santa.png");
-	App->map->Load("Test.tmx");
+	App->map->Load("level2.tmx");
 	return true;
 }
 

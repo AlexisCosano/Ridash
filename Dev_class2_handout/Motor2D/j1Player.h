@@ -1,8 +1,11 @@
 #pragma once
 #include "j1Module.h"
 #include "p2Point.h"
+#include "p2List.h"
+#include "SDL\include\SDL_rect.h"
 
 struct SDL_Texture;
+struct SDL_Rect;
 
 class j1Player : public j1Module
 {
@@ -26,14 +29,25 @@ public:
 	bool Save(pugi::xml_node&);
 	bool Load(pugi::xml_node&);
 
-	void Dash(int direction);
+	void Dash();
+	bool CheckCollisions();
+	void SetTexture(SDL_Texture* texture);
 
 public:
 
+	SDL_Rect player_rect;
 	p2Point<int> position;
 	p2Point<int> speed;
 	p2Point<int> gravity;
 	SDL_Texture* texture = nullptr;
 	int direction;
+	int dashing_speed;
 	bool grounded;
+	bool dashing;
+	float dash_distance;
+	float current_dash_distance;
+	bool jumping;
+	int jump_force;
+	float jump_distance;
+	float current_jump_distance;
 };

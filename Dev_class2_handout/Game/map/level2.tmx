@@ -4,6 +4,9 @@
   <image source="Tileset.png" width="908" height="515"/>
  </tileset>
  <layer name="level" width="50" height="20">
+  <properties>
+   <property name="draw" value="true"/>
+  </properties>
   <data>
    <tile gid="2"/>
    <tile gid="2"/>
@@ -1008,6 +1011,10 @@
   </data>
  </layer>
  <layer name="colliders" width="50" height="20">
+  <properties>
+   <property name="draw" value="false"/>
+   <property name="walkable" value="false"/>
+  </properties>
   <data>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -2012,6 +2019,10 @@
   </data>
  </layer>
  <layer name="death" width="50" height="20">
+  <properties>
+   <property name="death" value="true"/>
+   <property name="draw" value="false"/>
+  </properties>
   <data>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -3016,6 +3027,10 @@
   </data>
  </layer>
  <layer name="spawn" width="50" height="20">
+  <properties>
+   <property name="draw" value="false"/>
+   <property name="spawn" value="true"/>
+  </properties>
   <data>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -4020,6 +4035,10 @@
   </data>
  </layer>
  <layer name="victory" width="50" height="20">
+  <properties>
+   <property name="draw" value="false"/>
+   <property name="victory" value="true"/>
+  </properties>
   <data>
    <tile gid="0"/>
    <tile gid="0"/>

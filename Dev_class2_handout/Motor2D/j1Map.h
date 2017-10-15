@@ -9,6 +9,7 @@
 struct MapLayer
 {
 	p2SString			name;
+	bool                draw;
 	int					width;
 	int					height;
 	uint*				data;
@@ -59,6 +60,7 @@ struct MapData
 	MapTypes			type;
 	p2List<TileSet*>	tilesets;
 	p2List<MapLayer*>	layers;
+	p2List<MapLayer*>   draw_layers;
 };
 
 class j1Map : public j1Module
@@ -91,6 +93,7 @@ private:
 	bool LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set);
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
+	void FindColliders(MapLayer* layer);
 
 public:
 

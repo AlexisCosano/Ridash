@@ -6,24 +6,37 @@
 #include "j1Render.h"
 #include "j1Input.h"
 #include "j1Scene.h"
+#include "j1Colliders.h"
 
 
 j1Player::j1Player() : j1Module()
 {
 	name.create("player");
 
-	position.x = 0;
-	position.y = 0;
+	position.x = 550;
+	position.y = 250;
 
 	speed.x = 3;
 	speed.y = 60;
 
+	dashing_speed = 10;
+
+	dash_distance = 256.f;
+	current_dash_distance = 0.f;
+
 	gravity.x = 0;
 	gravity.y = 8;
 
-	direction = 1; // 1 - right, 0 - left
+	player_rect = { 0, 0, 77, 128 };
 
-	grounded = true;
+	direction = 1; // 1 - right, -1 - left
+
+	jumping = false;
+	jump_force = 16;
+	jump_distance = 256.f;
+	current_jump_distance = 0.f;
+
+	bool grounded;
 }
 
 // Destructor ---------------------------------
@@ -45,30 +58,127 @@ bool j1Player::Update(float dt)
 {
 	bool ret = true;
 
-	// Player Controls
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-	{
-		position.x -= 1 * speed.x;
-		direction = 0;
+	player_rect.x = position.x;
+	player_rect.y = position.y;
 
-		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-			Dash(direction);
-	}
-		
-		
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+	if (dashing)
 	{
-		position.x += 1 * speed.x;
-		direction = 1;
+		player_rect.x += direction * dashing_speed;
+		if (CheckCollisions() == false)
+		{
+			position.x = player_rect.x;
+		}
+		else
+		{
+			player_rect.x = position.x;
+			current_dash_distance = 0.f;
+			dashing = false;
+		}
 
-		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-			Dash(direction);
+		if (dash_distance <= current_dash_distance)
+		{
+			current_dash_distance = 0.f;
+			dashing = false;
+		}
+		else
+		{
+			current_dash_distance += dashing_speed;
+		}
 	}
-		
-	
-	position += gravity;
+	else
+	{
+		// Player Controls
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+		{
+			player_rect.x -= 1 * speed.x;
+			if (CheckCollisions() == false)
+			{
+				position.x = player_rect.x;
+			}
+			else
+			{
+				player_rect.x = position.x;
+			}
+			direction = -1;
+
+			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+			{
+				Dash();
+			}
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+		{
+			player_rect.x += 1 * speed.x;
+			if (CheckCollisions() == false)
+			{
+				position.x = player_rect.x;
+			}
+			else
+			{
+				player_rect.x = position.x;
+			}
+			direction = 1;
+
+			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+			{
+				Dash();
+			}
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+		{
+			jumping = true;
+		}
+
+		if (jumping)
+		{
+			player_rect.y -= jump_force;
+			if (CheckCollisions() == false)
+			{
+				position.y = player_rect.y;
+			}
+			else
+			{
+				player_rect.y = position.y;
+			}
+			if (jump_distance <= current_jump_distance)
+			{
+				current_jump_distance = 0.f;
+				jumping = false;
+			}
+			else
+			{
+				current_jump_distance += jump_force;
+			}
+		}
+		else
+		{
+			player_rect.y += gravity.y;
+			if (CheckCollisions() == false)
+			{
+				position.y = player_rect.y;
+			}
+			else
+			{
+				player_rect.y = position.y;
+			}
+		}
+	}
 
 	return ret;
+}
+
+// Set texture
+void j1Player::SetTexture(SDL_Texture* texture)
+{
+	this->texture = texture;
+
+	int w, h;
+	SDL_QueryTexture(texture, NULL, NULL, &w, &h);
+
+	player_rect.h = 128;
+	player_rect.w = 77;
 }
 
 // Called before quitting --------------------
@@ -80,24 +190,27 @@ bool j1Player::CleanUp()
 }
 
 // Dash -------------------------------------
-void j1Player::Dash(int direction)
+void j1Player::Dash()
 {
-	if (direction == 1)
+	jumping = false;
+	current_jump_distance = 0.f;
+	dashing = true;
+}
+
+// Collisions
+bool j1Player::CheckCollisions()
+{
+	bool ret = false;
+	p2List_item<SDL_Rect>* item = App->colliders->colliders.start;
+
+	for (item; item != App->colliders->colliders.end; item = item->next)
 	{
-		for (int i = 0; i <= 15; ++i)
-		{
-			position.x += i;
-			App->render->Blit(App->scene->main_character->texture, position.x, position.y);
-		}
+		ret = App->colliders->CheckCollision(player_rect, item->data);
+		if (ret)
+			return ret;
 	}
-	else
-	{
-		for (int i = 0; i <= 15; ++i)
-		{
-			position.x -= i;
-			App->render->Blit(App->scene->main_character->texture, position.x, position.y);
-		}
-	}
+
+	return ret;
 }
 
 // Save & Load ------------------------------
