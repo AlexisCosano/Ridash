@@ -52,18 +52,28 @@ bool j1Scene::PreUpdate()
 bool j1Scene::Update(float dt)
 {
 	// Save & Load
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	{
+		LOG("Starting from the very first level");
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+	{
+		LOG("Starting from the beginning of the current level");
+	}
+
 	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 	{
-		LOG("Saving game... =========================");
+		LOG("Saving game...");
 		App->WantToSave();
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 	{
-		LOG("Loading game... ========================");
+		LOG("Loading game...");
 		App->WantToLoad();
 	}
-	
+
 	App->render->camera.x = (App->map->spawn_point.x - main_character->position.x);
 	App->render->camera.y = (App->map->spawn_point.y - main_character->position.y);
 
