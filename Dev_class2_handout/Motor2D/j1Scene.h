@@ -33,10 +33,15 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	void LoadNextMap(int map);
+
 
 public:
 	j1Player*    main_character;
 	iPoint offset;
+
+	bool to_load;
+	const char* map_to_load;
 private:
 	SDL_Texture* img;	
 };

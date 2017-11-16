@@ -54,4 +54,7 @@ public:
 	int jump_force;
 	float jump_distance;
 	float current_jump_distance;
+
+private:
+	int current_map = 1;
 };

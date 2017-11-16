@@ -48,6 +48,8 @@ bool j1Player::Awake(pugi::xml_node&)
 {
 	LOG("Init player");
 	bool ret = true;
+	current_map = 1;
+	App->scene->LoadNextMap(current_map);
 	LOG(" INITIAL Position = (%i, %i)", position.x, position.y);
 	return ret;
 }
@@ -172,7 +174,12 @@ bool j1Player::Update(float dt)
 
 	if (CheckVictory() == true)
 	{
-		ret = false;
+		if (current_map == 1)
+		{
+			App->scene->LoadNextMap(2);			
+		}
+		else
+			ret = false;
 	}
 
 	return ret;

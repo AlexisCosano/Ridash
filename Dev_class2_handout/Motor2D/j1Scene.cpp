@@ -31,15 +31,27 @@ bool j1Scene::Awake()
 // Called before the first frame
 bool j1Scene::Start()
 {
-	//App->audio->PlayMusic("audio/music/music_sadpiano.ogg");
-	
-	App->map->Load("level2.tmx");
+	//App->audio->PlayMusic("audio/music/music_sadpiano.ogg");	
 	main_character = App->player;
 	main_character->position = App->map->spawn_point;
 	main_character->texture = App->tex->Load("textures/Santa.png");
 	offset.x = 380;
 	offset.y = 320;
 	return true;
+}
+
+void j1Scene::LoadNextMap(int map)
+{
+	to_load = true;
+
+	if (map == 1)
+	{
+		map_to_load = "level1.tmx";
+	}
+	else
+	{
+		map_to_load = "level2.tmx";
+	}
 }
 
 // Called each loop iteration
@@ -102,6 +114,13 @@ bool j1Scene::PostUpdate()
 
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
+
+	if (to_load)
+	{
+		App->map->Load(map_to_load);
+		main_character->position = App->map->spawn_point;
+		to_load = false;
+	}
 
 	return ret;
 }
