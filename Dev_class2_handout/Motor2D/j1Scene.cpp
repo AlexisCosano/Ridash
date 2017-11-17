@@ -125,6 +125,7 @@ bool j1Scene::PostUpdate()
 
 	if (to_load)
 	{
+		App->map->Unload();
 		App->map->Load(map_to_load);
 		main_character->position = App->map->spawn_point;
 		to_load = false;
