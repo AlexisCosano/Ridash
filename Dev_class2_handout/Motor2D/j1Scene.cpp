@@ -90,6 +90,11 @@ bool j1Scene::Update(float dt)
 		App->WantToLoad();
 	}
 	
+	if (App->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN)
+	{
+		LOG("locking/unlocking FPS cap");
+
+	}
 	App->render->camera.x = -main_character->position.x + offset.x;
 	App->render->camera.y = -main_character->position.y + offset.y;
 

@@ -46,6 +46,9 @@ public:
 	bool SaveRendererState(pugi::xml_node& node);
 	bool LoadState(pugi::xml_node& node);
 
+	//Active/Deactivate vsync
+	void ChangeVSYNCstate(bool state);
+
 public:
 	
 	SDL_Renderer*	renderer;

@@ -273,3 +273,14 @@ bool j1Render::SaveRendererState(pugi::xml_node& node)
 
 	return ret;
 }
+
+void j1Render::ChangeVSYNCstate(bool state)
+{
+	//Choose renderer vsync related flag
+	Uint32 renderer_flag = SDL_RENDERER_PRESENTVSYNC;
+	if (!state)renderer_flag |= SDL_RENDERER_ACCELERATED;
+
+	//Generate renderer whit the new vsync state
+	SDL_DestroyRenderer(renderer);
+	renderer = SDL_CreateRenderer(App->win->window, -1, renderer_flag);
+}
