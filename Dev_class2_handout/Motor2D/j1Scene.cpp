@@ -72,6 +72,7 @@ bool j1Scene::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 	{
+		main_character->position = App->map->spawn_point;
 		LOG("Starting from the beginning of the current level");
 	}
 
