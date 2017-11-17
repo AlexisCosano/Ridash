@@ -67,6 +67,8 @@ bool j1Scene::Update(float dt)
 	// Save & Load
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
+		LoadNextMap(1);
+		main_character->position = App->map->spawn_point;
 		LOG("Starting from the very first level");
 	}
 
