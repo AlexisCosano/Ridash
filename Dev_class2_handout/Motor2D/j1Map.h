@@ -85,6 +85,7 @@ public:
 
 	// Load new map
 	bool Load(const char* path);
+	void Unload();
 
 	iPoint MapToWorld(int x, int y) const;
 	iPoint WorldToMap(int x, int y) const;

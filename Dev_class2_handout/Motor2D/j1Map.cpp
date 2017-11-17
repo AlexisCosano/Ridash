@@ -521,3 +521,11 @@ SDL_Rect TileSet::GetTileRect(int id) const
 	rect.y = margin + ((rect.h + spacing) * (relative_id / num_tiles_width));
 	return rect;
 }
+
+void j1Map::Unload()
+{
+	data.draw_layers.clear();
+	data.layers.clear();
+
+	App->colliders->UnloadAllColliders();
+}

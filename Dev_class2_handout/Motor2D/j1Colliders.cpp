@@ -65,3 +65,10 @@ bool j1Colliders::Load(pugi::xml_node &)
 {
 	return true;
 }
+
+void j1Colliders::UnloadAllColliders()
+{
+	colliders.clear();
+	death_triggers.clear();
+	victory_triggers.clear();
+}
