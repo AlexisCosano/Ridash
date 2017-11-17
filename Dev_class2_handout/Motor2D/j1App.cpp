@@ -70,7 +70,7 @@ void j1App::AddModule(j1Module* module)
 bool j1App::Awake()
 {
 	PERF_START(ptimer);
-	bool				ret = true;
+	bool				ret = false;
 	pugi::xml_node		app_config;
 
 	ret = LoadConfigFile();
@@ -78,7 +78,7 @@ bool j1App::Awake()
 	{
 		// self-config
 		ret = true;
-		app_config = config.child("app");
+		app_config = config_node.child("app");
 		title.create(app_config.child("wtitle").child_value());
 		company.create(app_config.child("wcompany").child_value());
 		year.create(app_config.child("wyear").child_value());
