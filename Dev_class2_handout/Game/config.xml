@@ -1,8 +1,11 @@
 <config>
-	<window>
-		<title wtitle="Ridash" />
-		<company wcompany="CITM" />
-		<year wyear="2017" />
+  <app framerate_cap="30">
+    <title wtitle="Ridash" />
+    <company wcompany="CITM" />
+    <year wyear="2017" />
+  </app>
+  
+	<window>	
 		<dimensions width="1024" height="768" scale="1" />
 		<options fullscreen="false" borderless="false" resizable="true" fullscreenwindow="false" />
 	</window>
@@ -13,6 +16,7 @@
 	
 	<renderer>
 		<background r="0" g="0" b="0" a="0" />
+    <vsync value="false"/>
 	</renderer>
 	
 	<textures>

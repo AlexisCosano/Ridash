@@ -3,6 +3,8 @@
 
 #include "p2List.h"
 #include "j1Module.h"
+#include "j1PerfTimer.h"
+#include "j1Timer.h"
 #include "PugiXml\src\pugixml.hpp"
 
 // Modules
@@ -15,6 +17,7 @@ class j1Scene;
 class j1Map;
 class j1Player;
 class j1Colliders;
+class j1PathFinding;
 
 class j1App
 {
@@ -44,6 +47,10 @@ public:
 	// Exposing some properties for reading
 	int GetArgc() const;
 	const char* GetArgv(int index) const;
+	const char* GetTitle() const;
+	const char* GetCompany() const;
+	const char* GetYear() const;
+	float GetDT() const;
 
 	// Save & Load
 	bool SaveFile();
@@ -88,12 +95,26 @@ public:
 	j1Map*				map;
 	j1Player*           player;
 	j1Colliders*        colliders;
+	j1PathFinding*		pathfinding;
 
 private:
 
 	p2List<j1Module*>	modules;
 	uint				frames;
 	float				dt;
+
+	p2SString			title;
+	p2SString			company;
+	p2SString			year;
+
+	j1PerfTimer			ptimer;
+	uint64				frame_count = 0;
+	j1Timer				startup_time;
+	j1Timer				frame_time;
+	j1Timer				last_sec_frame_time;
+	uint32				last_sec_frame_count = 0;
+	uint32				prev_last_sec_frame_count = 0;
+	int					capped_ms = -1;
 
 public:
 
