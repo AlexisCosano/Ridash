@@ -74,22 +74,15 @@ bool j1App::Awake()
 	pugi::xml_node		app_config;
 
 	ret = LoadConfigFile();
-	if (ret == false)
-	{
 		// self-config
-		ret = true;
-		app_config = config_node.child("app");
-		title.create(app_config.child("wtitle").child_value());
-		company.create(app_config.child("wcompany").child_value());
-		year.create(app_config.child("wyear").child_value());
+	app_config = config_node.child("app");
+	title.create(app_config.child("wtitle").child_value());
+	company.create(app_config.child("wcompany").child_value());
+	year.create(app_config.child("wyear").child_value());
 
-		int cap = app_config.attribute("framerate_cap").as_int(-1);
-
-		if (cap > 0)
-		{
-			capped_ms = 1000 / cap;
-		}
-	}
+	int cap = app_config.attribute("framerate_cap").as_int(60);
+	
+	capped_ms = 1000 / cap;
 
 	p2List_item<j1Module*>* item;
 	item = modules.start;
@@ -180,9 +173,7 @@ void j1App::FinishUpdate()
 
 	if (capped_ms > 0 && last_frame_ms < capped_ms)
 	{
-		j1PerfTimer t;
 		SDL_Delay(capped_ms - last_frame_ms);
-		LOG("We waited for %d milliseconds and got back in %f", capped_ms - last_frame_ms, t.ReadMs());
 	}
 }
 
